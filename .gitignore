@@ -8,3 +8,9 @@ bin/secrets.dart
 
 lib/modrinth/output_types/*.g.dart
 lib/modrinth/output_types/*/*.g.dart
+
+bin/*/*.g.dart
+
+mcGet
+mc-get.json
+mc-get.lock
