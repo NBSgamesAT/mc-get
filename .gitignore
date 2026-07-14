@@ -1,3 +1,10 @@
 # https://dart.dev/guides/libraries/private-files
 # Created by `dart pub`
 .dart_tool/
+
+# This is the secret file that contains the API keys and other sensitive information. It should not be committed to version control.
+# The secrets.dart.template file is a template for the secrets.dart file. Copy that and add your own API stuff.
+bin/secrets.dart
+
+lib/modrinth/output_types/*.g.dart
+lib/modrinth/output_types/*/*.g.dart

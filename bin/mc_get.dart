@@ -1,5 +1,7 @@
-import 'package:mc_get/mc_get.dart' as mc_get;
+import 'package:mc_get/modrinth/modrinth.dart';
+import 'secrets.dart';
 
-void main(List<String> arguments) {
-  print('Hello world: ${mc_get.calculate()}!');
+void main(List<String> arguments) async {
+
+  
 }
