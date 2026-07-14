@@ -37,6 +37,12 @@ class Config<T extends ConfigData<T>> {
     return _data!;
   }
 
+  bool get isLoaded => _data != null;
+
+  void resetData() {
+    _data = codec.createNew();
+  }
+
   T get data {
     return _checkNull();
   }
