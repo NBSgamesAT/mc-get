@@ -14,3 +14,7 @@ bin/*/*.g.dart
 mcGet
 mc-get.json
 mc-get.lock
+mods
+mods/*
+plugins
+plugins/*
