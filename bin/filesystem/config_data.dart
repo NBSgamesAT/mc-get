@@ -3,8 +3,12 @@ import "package:mc_get/modrinth/output_types/version.dart";
 
 part "config_data.g.dart";
 
+abstract class ConfigData<T> {
+  Map<String, dynamic> toJson();
+}
+
 @JsonSerializable()
-class McGetJson {
+class McGetJson implements ConfigData<McGetJson> {
   String minecraftVersion;
   String loader;
   String? installFolderOverride;
@@ -23,11 +27,13 @@ class McGetJson {
   McGetJson(this.minecraftVersion, this.loader, {this.installFolderOverride}) : mods = [];
 
   factory McGetJson.fromJson(Map<String, dynamic> json) => _$McGetJsonFromJson(json);
-  Map<String, dynamic> toJson() => _$McGetJsonToJson(this);
+  @override Map<String, dynamic> toJson() => _$McGetJsonToJson(this);
+
+  McGetJson.empty() : minecraftVersion = "", loader = "", installFolderOverride = null, mods = [];
 }
 
 @JsonSerializable(explicitToJson: true)
-class McGetLock {
+class McGetLock implements ConfigData<McGetLock> {
   String minecraftVersion;
   String loader;
   String installFolder;
@@ -35,8 +41,10 @@ class McGetLock {
 
   McGetLock(this.minecraftVersion, this.loader, this.installFolder, {this.mods = const []});
 
+  McGetLock.empty() : minecraftVersion = "", loader = "", installFolder = "", mods = [];
+
   factory McGetLock.fromJson(Map<String, dynamic> json) => _$McGetLockFromJson(json);
-  Map<String, dynamic> toJson() => _$McGetLockToJson(this);
+  @override Map<String, dynamic> toJson() => _$McGetLockToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
