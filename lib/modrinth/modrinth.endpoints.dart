@@ -4,7 +4,7 @@ enum ModrinthEndpoint<QueryInfo extends PassInfo, ReturnType>{
   searchProject<SearchInfo, ProjectsList>("search", parser: ObjectParser(ProjectsList.fromJson)),
 
   readProject<SlugOrId, dynamic>("project"),
-  readVersion<PassInfo, dynamic>("version"),
+  readVersion<SlugOrId, Version>("version", parser: ObjectParser(Version.fromJson)),
   readCollection<PassInfo, dynamic>("collections"),
   
   listProjectVersions<VersionSearch, List<Version>>("project", parser: ListParser(Version.fromJsonList));

@@ -49,13 +49,14 @@ class McGetLock implements ConfigData<McGetLock> {
 
 @JsonSerializable(explicitToJson: true)
 class LockedModData {
-  String modId;
+  String modSlug; // I decided to use modSlug instead of modId so I can actually find the mod via something that can be typed by the user
   String versionId;
   String versionNumber;
   String fileName;
   Hash hashes;
+  List<String> requiredDependencies = [];
 
-  LockedModData(this.modId, this.versionId, this.versionNumber, this.fileName, this.hashes);
+  LockedModData(this.modSlug, this.versionId, this.versionNumber, this.fileName, this.hashes);
 
   factory LockedModData.fromJson(Map<String, dynamic> json) => _$LockedModDataFromJson(json);
   Map<String, dynamic> toJson() => _$LockedModDataToJson(this);

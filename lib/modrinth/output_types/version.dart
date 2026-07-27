@@ -22,7 +22,7 @@ class Version {
   @JsonKey(name: "author_id") String authorId;
   @JsonKey(name: "date_published") String datePublished;
   int downloads;
-  List<File> files;
+  List<ApiFile> files;
 
   Version({
     required this.id,
@@ -40,7 +40,7 @@ class Version {
 }
 
 @JsonSerializable(explicitToJson: true)
-class File {
+class ApiFile {
   Hash hashes;
   String url;
   String filename;
@@ -48,7 +48,7 @@ class File {
   int size;
   @JsonKey(name: "file_type") FileType? fileType;
 
-  File({
+  ApiFile({
     required this.hashes,
     required this.url,
     required this.filename,
@@ -56,8 +56,8 @@ class File {
     required this.size,
   });
 
-  factory File.fromJson(Map<String, dynamic> json) => _$FileFromJson(json);
-  Map<String, dynamic> toJson() => _$FileToJson(this);
+  factory ApiFile.fromJson(Map<String, dynamic> json) => _$ApiFileFromJson(json);
+  Map<String, dynamic> toJson() => _$ApiFileToJson(this);
 }
 
 @JsonSerializable()

@@ -1,9 +1,19 @@
 import "dart:io";
 
 import "package:mc_get/modrinth/facets.dart";
+import "package:mc_get/modrinth/output_types/modrinth_api_error.dart";
+import "package:mc_get/modrinth/output_types/project_light.dart";
+import "package:mc_get/modrinth/output_types/version.dart";
+import "package:crypto/crypto.dart" hide Hash;
+
+import "package:path/path.dart" as p;
 
 import "../mc_get.dart";
+import "../filesystem/config_data.dart";
 import "package:mc_get/modrinth/modrinth.dart";
+
+part "cmd.install.dart";
+part "cmd.sanity.dart";
 
 void runCommand (List<String> arguments) async {
   if(arguments.isEmpty){
@@ -14,14 +24,33 @@ void runCommand (List<String> arguments) async {
   if(arguments[0] == "init"){
     await init();
   }
-
-  if(arguments[0] == "search"){
+  else if(arguments[0] == "search"){
     if(arguments.length < 2){
       print("Please provide a search query.");
       return;
     }
     final query = arguments.sublist(1).join(" ");
     await search(query);
+  }
+  else if(arguments[0] == "install"){
+    await installCommand(arguments);
+  }
+  else if(arguments[0] == "remove"){
+    await removeCommand(arguments);
+  }
+  else if(arguments[0] == "validate"){
+    if(arguments.length > 1 && arguments.contains("-f")){
+      await validateLocal(fixFoundIssues: true);
+      return;
+    }
+    await validateLocal();
+  }
+  else if(arguments[0] == "validate-online"){
+    if(arguments.length > 1 && arguments.contains("-f")){
+      await validateLocal(fixFoundIssues: true);
+      return;
+    }
+    await validateViaApi();
   }
 }
 
@@ -109,3 +138,19 @@ void noArgs() {
   print("No arguments provided. Please provide a command.");
 }
 
+Future<File> downloadFile(String url, String filePath) async {
+  final client = HttpClient();
+  try{
+    final file = File(filePath);
+    final request = await client.getUrl(Uri.parse(url));
+    final response = await request.close();
+    if(response.statusCode != 200){
+      throw Exception("Failed to download file from $url. Status code: ${response.statusCode}");
+    }
+
+    await response.pipe(file.openWrite());
+  } finally {
+    client.close();
+  }
+  return File(filePath);
+}
